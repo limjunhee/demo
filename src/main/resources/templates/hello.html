@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello 페이지</title>
+    </head>
+    <body>
+        <h1>안녕하세요!</h1>
+        <!-- DemoController.java에서 data에 '방갑습니다' 할당됨 -->
+        <p th:text="${data}"></p> 
+        <a href="/">홈페이지 메인</a>
+    </body>
+</html>
