@@ -5,9 +5,10 @@
         <title>Hello 페이지</title>
     </head>
     <body>
-        <h1>안녕하세요!</h1>
-        <!-- DemoController.java에서 data에 '방갑습니다' 할당됨 -->
+        <h1>안녕하세요!</h1> <!-- DemoController.java에서 data에 '방갑습니다' 할당됨 -->
         <p th:text="${data}"></p> 
-        <a href="/">홈페이지 메인</a>
+        <a href="/hello2">두번째 헬로 페이지</a>
+        <!-- <a href="/">홈페이지 메인</a> -->
+         <!-- 링크를 '/'로 설정하면 자동으로 index.html로 링크가 등록됨 -->
     </body>
 </html>

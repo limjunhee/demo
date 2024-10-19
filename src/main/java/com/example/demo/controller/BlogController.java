@@ -4,11 +4,14 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.demo.model.domain.Article;
@@ -44,4 +47,17 @@ public class BlogController {
         blogService.update(id, request);
         return "redirect:/article_list"; // 글 수정 이후 .html 연결
         }
+    
+    public class BlogRestController {
+    private BlogService blogService;
+     // 생성자 주입
+     public BlogRestController(BlogService blogService) {
+        this.blogService = blogService;
+    }
+    @PostMapping("/api/articles")
+    public String addArticle(@ModelAttribute AddArticleRequest request) {
+        blogService.save(request); // 아티클 저장
+        return "redirect:/article_list"; // article_list로 리다이렉트
+    }
+}
 }

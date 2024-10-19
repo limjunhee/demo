@@ -121,6 +121,11 @@
         loop: true,
     });
 
+    window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        e.returnValue = ''; // 일부 브라우저에서는 이 줄이 필요합니다.
+    });
+
     
 })(jQuery);
 

@@ -16,9 +16,15 @@ public class DemoController {
 
     @GetMapping("/testdb")
     public String getAllTestDBs(Model model) {
-    TestDB test = testService.findByName("홍길동");
-    model.addAttribute("data4", test);
-    System.out.println("데이터 출력 디버그 : " + test);
+    TestDB test1 = testService.findByName("홍길동");
+    TestDB test2 = testService.findByName("아저씨");
+    TestDB test3 = testService.findByName("꾸러기");
+    model.addAttribute("data4", test1);
+    System.out.println("데이터 출력 디버그 : " + test1);
+    model.addAttribute("data5", test2);
+    System.out.println("데이터 출력 디버그 : " + test2);
+    model.addAttribute("data6", test3);
+    System.out.println("데이터 출력 디버그 : " + test3);
     return "testdb";
     }
 
@@ -26,6 +32,16 @@ public class DemoController {
     public String hello(Model model) {
         model.addAttribute("data", " 방갑습니다."); // model 설정
         return "hello"; // hello.html 연결
+    }
+
+    @GetMapping("/hello2") // 전송 방식 GET
+    public String hello2(Model model) {
+        model.addAttribute("data1", " 홍길동님."); // model 설정
+        model.addAttribute("data2", " 방갑습니다.");
+        model.addAttribute("data3", " 오늘. ");
+        model.addAttribute("data4", " 날씨는. ");
+        model.addAttribute("data5", " 매우 좋습니다.");
+        return "hello2"; // hello2.html 연결
     }
 
     @GetMapping("/about_detailed")
