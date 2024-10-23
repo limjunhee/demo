@@ -61,7 +61,7 @@ public class BlogController {
         return "redirect:/article_list"; // article_list로 리다이렉트
     }
     }
-    @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑
+    @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
     public String deleteArticle(@PathVariable Long id) {
         blogService.delete(id);
         return "redirect:/article_list";
