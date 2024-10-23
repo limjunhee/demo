@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,15 +50,20 @@ public class BlogController {
         }
     
     public class BlogRestController {
-    private BlogService blogService;
-     // 생성자 주입
-     public BlogRestController(BlogService blogService) {
-        this.blogService = blogService;
-    }
+        private BlogService blogService;
+        // 생성자 주입
+        public BlogRestController(BlogService blogService) {
+            this.blogService = blogService;
+        }
     @PostMapping("/api/articles")
     public String addArticle(@ModelAttribute AddArticleRequest request) {
         blogService.save(request); // 아티클 저장
         return "redirect:/article_list"; // article_list로 리다이렉트
     }
-}
+    }
+    @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑
+    public String deleteArticle(@PathVariable Long id) {
+        blogService.delete(id);
+        return "redirect:/article_list";
+    }
 }

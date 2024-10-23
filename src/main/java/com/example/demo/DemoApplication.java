@@ -9,3 +9,4 @@ public class DemoApplication { // 클래스 이름
 			SpringApplication.run(DemoApplication.class, args); // run 메서드로 실행
 	}
 }
+
