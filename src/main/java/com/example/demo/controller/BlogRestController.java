@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController // @Controller + @ResponseBody
 public class BlogRestController {
     private final BlogService blogService;
-    @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@ModelAttribute AddArticleRequest request) {
-        Article saveArticle = blogService.save(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saveArticle);
-    }
+    // @PostMapping("/api/articles")
+    // public ResponseEntity<Article> addArticle(@ModelAttribute AddArticleRequest request) {
+    //     Article saveArticle = blogService.save(request);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(saveArticle);
+    // }
     
     @GetMapping("/favicon.ico")
         public void favicon() {

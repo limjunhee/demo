@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>블로그 게시판</title>
+        <title>블로그 게시판(new)</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
-        <h1 class="mt-5">블로그 게시판</h1>
+        <h1 class="mt-5">블로그 게시판(new)</h1>
 
 <!-- 게시글 수정 폼 -->
 <div class="mt-4">
     <h2>게시글을 수정 합니다.</h2>
-    <form th:action="@{/api/article_edit/{id}(id=${article.id})}" method="post" name="content">
+    <form th:action="@{/api/board_edit/{id}(id=${board.id})}" method="post" name="content">
         <input type="hidden" name="_method" value="put">
         <div class="form-group">
             <label for="title">제목:</label>
