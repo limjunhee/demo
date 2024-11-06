@@ -13,7 +13,7 @@
 <!-- 게시글 수정 폼 -->
 <div class="mt-4">
     <h2>게시글을 수정 합니다.</h2>
-    <form th:action="@{/api/board_edit/{id}(id=${board.id})}" method="post" name="content">
+    <form th:action="@{/api/board_edit/{id}(id=${boards.id})}" method="post" name="content">
         <input type="hidden" name="_method" value="put">
         <div class="form-group">
             <label for="title">제목:</label>
