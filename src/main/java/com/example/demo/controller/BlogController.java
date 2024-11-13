@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import com.example.demo.model.domain.Article;
 import com.example.demo.model.domain.Board;
 import com.example.demo.model.service.AddArticleRequest;
 import com.example.demo.model.service.BlogService;
@@ -99,8 +98,20 @@ public class BlogController {
     public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {
         blogService.update(id, request);
         return "redirect:/board_list"; // 글 수정 이후 .html 연결
-        }
+    }
 
+    
+    @GetMapping("/board_write")
+    public String board_write() {
+        return "board_write";
+    }
+    
+    @PostMapping("/api/boards") // 글쓰기 게시판 저장
+        public String addboards(@ModelAttribute AddArticleRequest request) {
+        blogService.save(request);
+        return "redirect:/board_list"; // .HTML 연결
+    }
+    
     // @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
     // public String deleteArticle(@PathVariable Long id) {
     //     blogService.delete(id);
