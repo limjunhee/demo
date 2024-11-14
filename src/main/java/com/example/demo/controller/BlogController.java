@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;//게시판 검색창에 사용되는 Page를 사용하기 위해 Spring Data JPA - org.springframework.data.domain의 Page 클래스 임포트
 
 import com.example.demo.model.domain.Board;
 import com.example.demo.model.service.AddArticleRequest;
@@ -57,12 +60,7 @@ public class BlogController {
     // }
 
     
-    @GetMapping("/board_list") // 새로운 게시판 링크 지정
-    public String board_list(Model model) {
-        List<Board> list = blogService.findAll(); // 게시판 전체 리스트
-        model.addAttribute("boards", list); // 모델에 추가
-        return "board_list"; // .HTML 연결
-    }
+
 
     @GetMapping("/board_view/{id}") // 게시판 링크 지정, 수정, 삭제 버튼 매핑
     public String board_view(Model model, @PathVariable Long id) {
@@ -111,10 +109,65 @@ public class BlogController {
         blogService.save(request);
         return "redirect:/board_list"; // .HTML 연결
     }
-    
+    @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(id를 제거하고 글번호를 나타내는 버전)
+    public String board_list(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String keyword) {
+
+        // 한 페이지의 게시글 수
+        int pageSize = 3;
+        PageRequest pageable = PageRequest.of(page, pageSize);
+        
+        Page<Board> list; // 게시글 목록을 담을 Page 객체
+
+        // 키워드가 비어 있으면 전체 게시글 조회, 아니면 검색
+        if (keyword.isEmpty()) {
+            list = blogService.findAll(pageable); // 전체 게시글
+        } else {
+            list = blogService.searchByKeyword(keyword, pageable); // 키워드로 검색
+        }
+
+        // 시작 번호 계산 (현재 페이지의 첫 번째 게시글 번호)
+        int startNum = (page * pageSize) + 1; // 페이지 번호와 페이지 크기를 사용해 첫 번째 게시글 번호 계산
+
+        // 모델에 데이터 추가
+        model.addAttribute("boards", list); // 게시글 목록
+        model.addAttribute("totalPages", list.getTotalPages()); // 총 페이지 수
+        model.addAttribute("currentPage", page); // 현재 페이지 번호
+        model.addAttribute("keyword", keyword); // 검색어
+        model.addAttribute("startNum", startNum); // 시작 번호
+
+        return "board_list"; // board_list.html로 데이터 전달
+    }
+    // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(비활성화)
+    // public String board_list(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String keyword) {
+    //     PageRequest pageable = PageRequest.of(page, 3); // 한 페이지의 게시글 수
+    //     Page<Board> list; // Page를 반환
+
+    //     //키워드가 비어 있으면 전체 게시글을 조회하고 아니면 검색함
+    //     if (keyword.isEmpty()) {
+    //         list = blogService.findAll(pageable); // 기본 전체 출력(키워드 x)
+    //     } else {
+    //         list = blogService.searchByKeyword(keyword, pageable); // 키워드로 검색
+    //     }
+    //     model.addAttribute("boards", list); // 모델에 추가
+    //     model.addAttribute("totalPages", list.getTotalPages()); // 페이지 크기
+    //     model.addAttribute("currentPage", page); // 페이지 번호
+    //     model.addAttribute("keyword", keyword); // 키워드
+        
+    //     return "board_list"; // .HTML 연결
+    // }
+
+        // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판 전체 다 보여주는 Get 방식의 맵핑(비활성화)
+        // public String board_list(Model model) {
+        //     List<Board> list = blogService.findAll(); // 게시판 전체 리스트
+        //     model.addAttribute("boards", list); // 모델에 추가
+        //     return "board_list"; // .HTML 연결
+        // }
+
     // @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
     // public String deleteArticle(@PathVariable Long id) {
     //     blogService.delete(id);
     //     return "redirect:/article_list";
     // }
+    
+
 }

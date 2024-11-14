@@ -11,9 +11,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.domain.Board;
 import com.example.demo.model.repository.BoardRepository;
-
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.data.domain.Page;//게시판 검색창에 사용되는 Page를 사용하기 위해 Spring Data JPA - org.springframework.data.domain의 Page 클래스 임포트
+import org.springframework.data.domain.Pageable;//게시판 검색창에 사용되는 Pageable을 사용하기 위해 Spring Data JPA - org.springframework.data.domain의 Pageable 클래스 임포트
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성(부분)
 
@@ -63,14 +63,21 @@ public class BlogService {
             article.update(request.getTitle(), request.getContent(), article.getUser(), article.getNewdate(), article.getCount(), article.getLikec()); // 값을 수정
             blogRepository.save(article); // Article 객체에 저장
             });
-        }
+    }
 
     public Board save(AddArticleRequest request){
         return blogRepository.save(request.toEntity());
-        }
+    }
 
     public void delete(Long id) {
         blogRepository.deleteById(id);
-        }
+    }
+
+    public Page<Board> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
+    public Page<Board> searchByKeyword(String keyword, Pageable pageable) {
+        return blogRepository.findByTitleContainingIgnoreCase(keyword, pageable);
+    } // LIKE 검색 제공(대소문자 무시)
 }
 
