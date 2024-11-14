@@ -14,3 +14,15 @@ BlogRestController 삭제 후 DeleteMapping 올바른 위치에 입력 후 정�
 -----------------------------------------------------
 글쓰기 기능은 문제없이 작동됐으나 title, content 변수만 입력됨 -> BlogService.java의 article.update()메서드의 파라미터가 두 개밖에 없었다.←7주차 추가문제였음</br>
 이후 추가하여 글쓰기 기능까지 이상없음
+
+2024 11 13 - 8주차 게시판 검색기능, 연습문제 완료<br/>
+-----------------------------------------------------
+게시판의 검색창과 페이징 구현 때 Pageable cannot be resolved to a typeJava(16777218) 또는 The type Page is not generic; it cannot be parameterized with arguments <Board> 와 같은 에러 메시지가 떴었다.</br>
+해결 방법은 Page, Pageable클래스를 임포트 해줬다.
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+연습문제는 BlogController.java에서 startNum(글 시작 번호)을 계산하고, 이를 board_list.html로 전달하는 방식이였다
+기존의 매핑에서 PageRequest pageable = PageRequest.of(page, 3); 을
+int pageSize = 3;
+PageRequest pageable = PageRequest.of(page, pageSize);
