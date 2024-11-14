@@ -18,11 +18,13 @@ BlogRestController 삭제 후 DeleteMapping 올바른 위치에 입력 후 정�
 2024 11 13 - 8주차 게시판 검색기능, 연습문제 완료<br/>
 -----------------------------------------------------
 게시판의 검색창과 페이징 구현 때 Pageable cannot be resolved to a typeJava(16777218) 또는 The type Page is not generic; it cannot be parameterized with arguments <Board> 와 같은 에러 메시지가 떴었다.</br>
-해결 방법은 Page, Pageable클래스를 임포트 해줬다.
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+해결 방법은 Page, Pageable클래스를 임포트 해줬다.</br>
+import org.springframework.data.domain.Page;</br>
+import org.springframework.data.domain.Pageable;</br>
 
-연습문제는 BlogController.java에서 startNum(글 시작 번호)을 계산하고, 이를 board_list.html로 전달하는 방식이였다
-기존의 매핑에서 PageRequest pageable = PageRequest.of(page, 3); 을
-int pageSize = 3;
-PageRequest pageable = PageRequest.of(page, pageSize);
+연습문제는 BlogController.java에서 startNum(글 시작 번호)을 계산하고, 이를 board_list.html로 전달하는 방식이였다</br>
+기존의 매핑에서 PageRequest pageable = PageRequest.of(page, 3); 을</br>
+
+int pageSize = 3;</br>
+PageRequest pageable = PageRequest.of(page, pageSize);</br>로 수정하여 게시글 개수를 int형으로 선언했다.</br>이후 int startNum = (page * pageSize) + 1;도 사용해 startNum도 선언해주고,</br>
+model.addAttribute("startNum", startNum);를 사용해 글 시작 번호도 board_list에 전달해준다.
