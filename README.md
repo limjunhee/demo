@@ -44,7 +44,7 @@ PassworeEncoder라는 Bean을 주입시킬 수 없다는데, @Configuration을 S
 DTO 파일(AddMemberRequest.java)에 변수 검증방식을 추가했고, 폼을 입력하는 즉시 검증에 오류가 있으면 화면에 출력할 수 있게
 join_new에
 <div th:if="${errors != null}">
-                <ul>
-                    <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
-                </ul>
-            </div>
+    <ul>
+        <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+    </ul>
+</div>
