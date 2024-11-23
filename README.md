@@ -27,4 +27,24 @@ import org.springframework.data.domain.Pageable;</br>
 
 int pageSize = 3;</br>
 PageRequest pageable = PageRequest.of(page, pageSize);</br>로 수정하여 게시글 개수를 int형으로 선언했다.</br>이후 int startNum = (page * pageSize) + 1;도 사용해 startNum도 선언해주고,</br>
-model.addAttribute("startNum", startNum);를 사용해 글 시작 번호도 board_list에 전달해준다.
+model.addAttribute("startNum", startNum);를 사용해 글 시작 번호도 board_list에 전달해준다.</br>
+
+2024 11 20 - 9주차 로그인과 로그아웃 -1 완료
+-----------------------------------------------------
+ppt의 소스 코드를 복사했지만 </br>
+Action:</br>
+</br>
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration. 이 떴다.</br>
+PassworeEncoder라는 Bean을 주입시킬 수 없다는데, @Configuration을 SecurityConfig.java에서 빠뜨린 것이 원인이였다.</br>
+@Bean(명시적 의존성 주입)은 서버 시작 전에 객체를 주입시켜준다. 서버 구동 중간에 객체를 주입시키는 @Autowired와 객체 주입 시점이 다른 것이다.</br>
+이것 외엔 별다른 에러 없이 로그인 및 로그아웃 기능 구현에 성공했다.</br>
+
+2024 11 20 - 9주차 연습문제(변수 필드 검증 추가)완료
+-----------------------------------------------------
+DTO 파일(AddMemberRequest.java)에 변수 검증방식을 추가했고, 폼을 입력하는 즉시 검증에 오류가 있으면 화면에 출력할 수 있게
+join_new에
+<div th:if="${errors != null}">
+                <ul>
+                    <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+                </ul>
+            </div>
