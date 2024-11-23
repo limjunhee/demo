@@ -27,6 +27,7 @@ public class BlogController {
 
     @Autowired // 객체 주입 자동화, 생성자 1개면 생략 가능
     BlogService blogService; // 리포지토리 선언
+    
     // @GetMapping("/article_list") // 게시판 링크 지정
     //     public String article_list(Model model) {
     //         List<Article> list = blogService.findAll(); // 게시판 리스트
