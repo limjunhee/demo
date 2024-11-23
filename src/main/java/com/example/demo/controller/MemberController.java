@@ -29,15 +29,15 @@ public class MemberController {
     }
     
     @PostMapping("/api/members")
-public String addmembers(@Valid @ModelAttribute AddMemberRequest request, BindingResult bindingResult, Model model) {
-    if (bindingResult.hasErrors()) {
-        // 오류 메시지를 모델에 추가하여 join_new.html에서 출력할 수 있게 함.
-        model.addAttribute("errors", bindingResult.getAllErrors());
-        return "join_new";  // 오류가 있을 경우 회원가입 페이지로 돌아갑니다.
+    public String addmembers(@Valid @ModelAttribute AddMemberRequest request, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // 오류 메시지를 모델에 추가하여 join_new.html에서 출력할 수 있게 함.
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "join_new";  // 오류가 있을 경우 회원가입 페이지로 돌아갑니다.
+        }
+        memberService.saveMember(request);
+        return "join_end";  // 회원가입 성공 시 이동할 페이지
     }
-    memberService.saveMember(request);
-    return "join_end";  // 회원가입 성공 시 이동할 페이지
-}
 
     
     @GetMapping("/member_login") // 로그인 페이지 연결
