@@ -41,10 +41,9 @@ PassworeEncoder라는 Bean을 주입시킬 수 없다는데, @Configuration을 S
 
 2024 11 20 - 9주차 연습문제(변수 필드 검증 추가)완료
 -----------------------------------------------------
-DTO 파일(AddMemberRequest.java)에 변수 검증방식을 추가했고, 폼을 입력하는 즉시 검증에 오류가 있으면 화면에 출력할 수 있게
-join_new에
-<div th:if="${errors != null}">
-    <ul>
-        <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
-    </ul>
-</div>
+DTO 파일(AddMemberRequest.java)에 변수 검증방식을 추가했고, 폼을 입력하는 즉시 검증에 오류가 있으면 화면에 출력할 수 있게 join_new에 오류 메시지를 출력하는 부분을 추가하고</br>
+MemberController.java의 addMembers에 Model을 추가하여 model.addAttribute("errors", bindingResult.getAllErrors());를 입력해 오류가 있으면 메시지를 출력하게 했다.
+또한 힌트대로 MemberController.java의 checkMembers, addmembers와 MemberService.java의 validateDuplicateMember, saveMember, loginCheck와 같은 검증이 필요해 보이는 메서드의 @Vaild를 추가했고,</br>
+service 폴더 내에 있는 파일은 @Vaildated를 추가했다.</br>
+그러고 나서 하나하나 직접 검증해보면서 검증 자체는 잘 되는 것을 확인했으나, 혹시 몰라서 정상적으로 입력했을 때를 테스트 해봤는데, 이상하게도 되지 않았다. gpt로 만든 이름(name)검증 방식에 한글이 포함되지 않아서였다.</br>
+매우 허무했으나 아무튼 한글도 설정하면서 모든 것이 정상적인 것을 확인했다.</br>
