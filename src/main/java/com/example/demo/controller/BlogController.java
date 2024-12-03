@@ -78,7 +78,7 @@ public class BlogController {
     }
     
 
-    // @PostMapping("/api/boards") // 글쓰기 게시판 저장 (수정 중)
+    // @PostMapping("/api/boards") // 글쓰기 게시판 저장(GUEST만 사용자로 반환함)
     //     public String addboards(@ModelAttribute AddArticleRequest request) {
     //     blogService.save(request);
     //     return "redirect:/board_list"; // .HTML 연결
@@ -101,7 +101,7 @@ public class BlogController {
         return "redirect:/board_list";
     }
     
-    @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(id를 제거하고 글번호를 나타내는 버전)
+    @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오고, 게시글 id 말고 글번호 가져오고, 세션에서 사용자 이메일 가져오는맵핑
     public String board_list(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String keyword, HttpSession session) { //세션 전달
 
         String userId = (String) session.getAttribute("userId"); // 세션 아이디 존재 확인
@@ -134,7 +134,7 @@ public class BlogController {
         model.addAttribute("currentPage", page); // 현재 페이지 번호
         model.addAttribute("keyword", keyword); // 검색어
         model.addAttribute("startNum", startNum); // 시작 번호
-        model.addAttribute("email", email); // 로그인 사용자(이메일) 전달
+        model.addAttribute("email", email); // 로그인한 사용자(이메일) 전달
 
         return "board_list"; // board_list.html로 데이터 전달
     }
