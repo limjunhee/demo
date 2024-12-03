@@ -1,3 +1,4 @@
+//게시판 게시글 작성, 수정, 삭제 등
 package com.example.demo.controller;
 
 
@@ -30,46 +31,15 @@ public class BlogController {
     @Autowired // 객체 주입 자동화, 생성자 1개면 생략 가능
     BlogService blogService; // 리포지토리 선언
     
-    // @GetMapping("/article_list") // 게시판 링크 지정
-    //     public String article_list(Model model) {
-    //         List<Article> list = blogService.findAll(); // 게시판 리스트
-    //         model.addAttribute("articles", list); // 모델에 추가
-    //     return "article_list"; // .HTML 연결
-    // }
-    
-    // @GetMapping("/article_edit/{id}") // 게시판 링크 지정
-    // public String article_edit(Model model, @PathVariable Long id) {
-    //     Optional<Article> list = blogService.findById(id); // 선택한 게시판 글
-    //     if (list.isPresent()) {
-    //         model.addAttribute("articles", list.get()); // 존재하면 Article 객체를 모델에 추가
-    //         } else {
-    //             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
-    //             return "error"; // 오류 처리 페이지로 연결
-    //             }
-    //             return "article_edit"; // .HTML 연결
-    //     }
-
-    // @PutMapping("/api/article_edit/{id}")
-    // public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {
-    //     blogService.update(id, request);
-    //     return "redirect:/article_list"; // 글 수정 이후 .html 연결
-    //     }
-    
-
-    // @PostMapping("/api/articles")
-    // public String addArticle(@ModelAttribute AddArticleRequest request) {
-    //     blogService.save(request); // 아티클 저장
-    //     return "redirect:/article_list"; // article_list로 리다이렉트
-    // }
-
-    
-
-
     @GetMapping("/board_view/{id}") // 게시판 링크 지정, 수정, 삭제 버튼 매핑
-    public String board_view(Model model, @PathVariable Long id) {
+    public String board_view(Model model, @PathVariable Long id, HttpSession session) {
         Optional<Board> list = blogService.findById(id); // 선택한 게시판 글
         if (list.isPresent()) {
             model.addAttribute("boards", list.get()); // 존재할 경우 실제 Article 객체를 모델에 추가
+
+            // 현재 로그인한 사용자 이메일을 세션에서 가져와 모델에 추가
+            String currentEmail = (String) session.getAttribute("email");
+            model.addAttribute("currentEmail", currentEmail); // 현재 사용자 이메일 전달
         } else {
             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
             return "/error_page/board_error"; // 오류 처리 페이지로 연결
@@ -96,8 +66,8 @@ public class BlogController {
         }
 
     @PutMapping("/api/board_edit/{id}")
-    public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {
-        blogService.update(id, request);
+    public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {  
+        blogService.update(id, request); // 게시글 수정 처리
         return "redirect:/board_list"; // 글 수정 이후 .html 연결
     }
 
@@ -107,10 +77,28 @@ public class BlogController {
         return "board_write";
     }
     
-    @PostMapping("/api/boards") // 글쓰기 게시판 저장
-        public String addboards(@ModelAttribute AddArticleRequest request) {
+
+    // @PostMapping("/api/boards") // 글쓰기 게시판 저장 (수정 중)
+    //     public String addboards(@ModelAttribute AddArticleRequest request) {
+    //     blogService.save(request);
+    //     return "redirect:/board_list"; // .HTML 연결
+    // }
+
+    @PostMapping("/api/boards")//세션에서 이메일 가져오고, 이를 AddArticleRequest의 user 필드에 설정
+    public String addboards(@ModelAttribute AddArticleRequest request, HttpSession session) {
+        // 세션에서 이메일 가져오기
+        String email = (String) session.getAttribute("email");
+        if (email == null || email.isEmpty()) {
+            email = "GUEST"; // 로그인하지 않은 경우 기본값
+        }
+
+        // 작성자 정보를 설정
+        request.setUser(email);
+
+        // 서비스 계층에서 저장 처리
         blogService.save(request);
-        return "redirect:/board_list"; // .HTML 연결
+
+        return "redirect:/board_list";
     }
     
     @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(id를 제거하고 글번호를 나타내는 버전)
@@ -146,7 +134,7 @@ public class BlogController {
         model.addAttribute("currentPage", page); // 현재 페이지 번호
         model.addAttribute("keyword", keyword); // 검색어
         model.addAttribute("startNum", startNum); // 시작 번호
-        model.addAttribute("email", email); // 로그인 사용자(이메일)
+        model.addAttribute("email", email); // 로그인 사용자(이메일) 전달
 
         return "board_list"; // board_list.html로 데이터 전달
     }
@@ -180,6 +168,37 @@ public class BlogController {
     // public String deleteArticle(@PathVariable Long id) {
     //     blogService.delete(id);
     //     return "redirect:/article_list";
+    // }
+    // @GetMapping("/article_list") // 게시판 링크 지정
+    //     public String article_list(Model model) {
+    //         List<Article> list = blogService.findAll(); // 게시판 리스트
+    //         model.addAttribute("articles", list); // 모델에 추가
+    //     return "article_list"; // .HTML 연결
+    // }
+    
+    // @GetMapping("/article_edit/{id}") // 게시판 링크 지정
+    // public String article_edit(Model model, @PathVariable Long id) {
+    //     Optional<Article> list = blogService.findById(id); // 선택한 게시판 글
+    //     if (list.isPresent()) {
+    //         model.addAttribute("articles", list.get()); // 존재하면 Article 객체를 모델에 추가
+    //         } else {
+    //             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
+    //             return "error"; // 오류 처리 페이지로 연결
+    //             }
+    //             return "article_edit"; // .HTML 연결
+    //     }
+
+    // @PutMapping("/api/article_edit/{id}")
+    // public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {
+    //     blogService.update(id, request);
+    //     return "redirect:/article_list"; // 글 수정 이후 .html 연결
+    //     }
+    
+
+    // @PostMapping("/api/articles")
+    // public String addArticle(@ModelAttribute AddArticleRequest request) {
+    //     blogService.save(request); // 아티클 저장
+    //     return "redirect:/article_list"; // article_list로 리다이렉트
     // }
     
 

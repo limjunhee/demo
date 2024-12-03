@@ -51,7 +51,4 @@ public class Board {
         this.count=count;
         this.likec=likec;
     }
-    
-    
-
 }
