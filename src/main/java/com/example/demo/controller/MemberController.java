@@ -1,7 +1,6 @@
 //회원가입, 로그인 등
 package com.example.demo.controller;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
