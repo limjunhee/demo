@@ -155,12 +155,12 @@ public class BlogController {
     //     return "board_list"; // .HTML 연결
     // }
 
-        // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판 전체 다 보여주는 Get 방식의 맵핑(비활성화)
-        // public String board_list(Model model) {
-        //     List<Board> list = blogService.findAll(); // 게시판 전체 리스트
-        //     model.addAttribute("boards", list); // 모델에 추가
-        //     return "board_list"; // .HTML 연결
-        // }
+    // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판 전체 다 보여주는 Get 방식의 맵핑(비활성화)
+    // public String board_list(Model model) {
+    //     List<Board> list = blogService.findAll(); // 게시판 전체 리스트
+    //     model.addAttribute("boards", list); // 모델에 추가
+    //     return "board_list"; // .HTML 연결
+    // }
 
     // @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
     // public String deleteArticle(@PathVariable Long id) {

@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
     @Bean // 명시적 의존성 주입 : Autowired와 다름
-    // 5.7버전 이저 WebSecurityConfigurerAdapter 사용
+    // 5.7버전 이전 WebSecurityConfigurerAdapter 사용
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                     .headers(headers -> headers

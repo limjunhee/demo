@@ -11,7 +11,6 @@ import jakarta.persistence.*; // 기존 javax 후속 버전
 public class Board {
     @Id // 기본 키
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 1씩 증가
-    
     @Column(name = "id", updatable = false) // 수정 x
     private Long id;
     
