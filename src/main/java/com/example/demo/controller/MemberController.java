@@ -85,9 +85,9 @@ public class MemberController {
             HttpSession session = request2.getSession(false); // 기존 세션 가져오기(존재하지 않으면 null 반환)
             session.invalidate(); // 기존 세션 무효화(세션 정보를 모두 제거)
             Cookie cookie = new Cookie("JSESSIONID", null); // JSESSIONID-> 세션의 디폴트 네임으로 초기화
-            cookie.setPath("/"); // Set the path for the cookie
-            cookie.setMaxAge(0); // Set cookie expiration to 0 (removes the cookie)
-            response.addCookie(cookie); // Add cookie to the response
+            cookie.setPath("/"); // 쿠키의 경로 비워둠
+            cookie.setMaxAge(0); // 쿠키의 유효 시간 0으로 설정 = 즉시 삭제
+            response.addCookie(cookie);
             session = request2.getSession(true); // 새로운 세션 생성
             System.out.println("세션 userId: " + session.getAttribute("userId" )); // 초기화 후 IDE 터미널에 세션 값 출력
             return "login"; // 로그인 페이지로 리다이렉트

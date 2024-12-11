@@ -59,9 +59,4 @@ public class DemoController {
         model.addAttribute("para2", 002);
         return "thymeleaf_test1";
     }
-    
-    // @GetMapping("/article_list")
-    // public String article_list() {
-    //     return "article_list";
-    // }
 }

@@ -42,7 +42,7 @@ public class BlogController {
             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
             return "/error_page/board_error"; // 오류 처리 페이지로 연결
             }
-            return "board_view"; // .HTML 연결
+        return "board_view"; // .HTML 연결
     }
 
     @DeleteMapping("/api/board_delete/{id}") //삭제버튼 매핑 (처음 실습할 때 얘가 위에 public class BlogRestController 안에 있어서 안됐음)
@@ -59,8 +59,8 @@ public class BlogController {
             } else {
                 // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
                 return "error"; // 오류 처리 페이지로 연결
-                }
-                return "board_edit"; // .HTML 연결
+            }
+            return "board_edit"; // .HTML 연결
         }
 
     @PutMapping("/api/board_edit/{id}")//게시글 수정 페이지에서 수정 후 게시판에 업데이트하는 매핑
@@ -133,76 +133,4 @@ public class BlogController {
 
         return "board_list"; // board_list.html로 데이터 전달
     }
-
-    //과거에 함께했었던 코드들
-    // @PostMapping("/api/boards") // 글쓰기 게시판 저장(GUEST만 사용자로 반환함)
-    //     public String addboards(@ModelAttribute AddArticleRequest request) {
-    //     blogService.save(request);
-    //     return "redirect:/board_list"; // .HTML 연결
-    // }
-    
-    // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(비활성화)
-    // public String board_list(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String keyword) {
-    //     PageRequest pageable = PageRequest.of(page, 3); // 한 페이지의 게시글 수
-    //     Page<Board> list; // Page를 반환
-
-    //     //키워드가 비어 있으면 전체 게시글을 조회하고 아니면 검색함
-    //     if (keyword.isEmpty()) {
-    //         list = blogService.findAll(pageable); // 기본 전체 출력(키워드 x)
-    //     } else {
-    //         list = blogService.searchByKeyword(keyword, pageable); // 키워드로 검색
-    //     }
-    //     model.addAttribute("boards", list); // 모델에 추가
-    //     model.addAttribute("totalPages", list.getTotalPages()); // 페이지 크기
-    //     model.addAttribute("currentPage", page); // 페이지 번호
-    //     model.addAttribute("keyword", keyword); // 키워드
-        
-    //     return "board_list"; // .HTML 연결
-    // }
-
-    // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판 전체 다 보여주는 Get 방식의 맵핑(비활성화)
-    // public String board_list(Model model) {
-    //     List<Board> list = blogService.findAll(); // 게시판 전체 리스트
-    //     model.addAttribute("boards", list); // 모델에 추가
-    //     return "board_list"; // .HTML 연결
-    // }
-
-    // @DeleteMapping("/api/article_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
-    // public String deleteArticle(@PathVariable Long id) {
-    //     blogService.delete(id);
-    //     return "redirect:/article_list";
-    // }
-    // @GetMapping("/article_list") // 게시판 링크 지정
-    //     public String article_list(Model model) {
-    //         List<Article> list = blogService.findAll(); // 게시판 리스트
-    //         model.addAttribute("articles", list); // 모델에 추가
-    //     return "article_list"; // .HTML 연결
-    // }
-    
-    // @GetMapping("/article_edit/{id}") // 게시판 링크 지정
-    // public String article_edit(Model model, @PathVariable Long id) {
-    //     Optional<Article> list = blogService.findById(id); // 선택한 게시판 글
-    //     if (list.isPresent()) {
-    //         model.addAttribute("articles", list.get()); // 존재하면 Article 객체를 모델에 추가
-    //         } else {
-    //             // 처리할 로직 추가 (예: 오류 페이지로 리다이렉트, 예외 처리 등)
-    //             return "error"; // 오류 처리 페이지로 연결
-    //             }
-    //             return "article_edit"; // .HTML 연결
-    //     }
-
-    // @PutMapping("/api/article_edit/{id}")
-    // public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {
-    //     blogService.update(id, request);
-    //     return "redirect:/article_list"; // 글 수정 이후 .html 연결
-    //     }
-    
-
-    // @PostMapping("/api/articles")
-    // public String addArticle(@ModelAttribute AddArticleRequest request) {
-    //     blogService.save(request); // 아티클 저장
-    //     return "redirect:/article_list"; // article_list로 리다이렉트
-    // }
-    
-
 }

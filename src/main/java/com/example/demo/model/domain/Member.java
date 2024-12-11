@@ -23,13 +23,13 @@ public class Member {
     @Column(name = "password", nullable = false) // 비밀번호, null로 들어가면 안됨
     private String password = "";
 
-    @Column(name = "age", nullable = false)
+    @Column(name = "age", nullable = false)//나이 담는 필드
     private String age = "";
 
-    @Column(name = "mobile", nullable = false)
+    @Column(name = "mobile", nullable = false)//폰 번호 담는 필드
     private String mobile = "";
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address", nullable = false)//집주소 담는 필드
     private String address = "";
 
     @Builder // 생성자에 빌더 패턴 적용(불변성)

@@ -33,7 +33,7 @@ public class Board {
     private String likec = "";
 
     @Builder
-    public Board(String title, String content, String user, String newdate, String count, String likec){
+    public Board(String title, String content, String user, String newdate, String count, String likec){//빌더 패턴(테이블 객체 정의)
         this.title = title;
         this.content = content;
         this.user = user;
