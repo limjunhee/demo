@@ -43,7 +43,7 @@ public class FileController {
             Path filePath = uploadPath.resolve(sanitizedEmail + ".txt"); // 업로드 폴더에 .txt 이름 설정
             System.out.println("File path: " + filePath); // 디버깅용 출력
         
-            // 동일한 파일이 존재할 경우 다른 이름으로 저장하기
+            // 동일한 파일이 존재할 경우 다른 이름으로 저장하기(뒤에 언더바+숫자 붙이기)
             int counter = 1;
             while (Files.exists(filePath)) {
                 filePath = uploadPath.resolve(sanitizedEmail + "_" + counter + ".txt");
