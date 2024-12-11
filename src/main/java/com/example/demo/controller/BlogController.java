@@ -22,7 +22,7 @@ import com.example.demo.model.service.AddArticleRequest;
 import com.example.demo.model.service.BlogService;
 
 import jakarta.servlet.http.HttpSession;
-@Controller //컨트롤러 어노테이션 명시 파일을 다른 곳으로 옮겨도 자동으로 인식해 줌.
+@Controller //컨트롤러 어노테이션(이 클래스가 컨트롤러임을 자동으로 인식) : 명시 파일을 다른 곳으로 옮겨도 자동으로 인식해 줌.
 
 public class BlogController {
 
@@ -45,7 +45,7 @@ public class BlogController {
             return "board_view"; // .HTML 연결
     }
 
-    @DeleteMapping("/api/board_delete/{id}") //삭제버튼 매핑 얘가 위에 public class BlogRestController 안에 있어서 안됐음
+    @DeleteMapping("/api/board_delete/{id}") //삭제버튼 매핑 (처음 실습할 때 얘가 위에 public class BlogRestController 안에 있어서 안됐음)
     public String board_delete(@PathVariable Long id) {
         blogService.delete(id);
         return "redirect:/board_list";
@@ -63,32 +63,27 @@ public class BlogController {
                 return "board_edit"; // .HTML 연결
         }
 
-    @PutMapping("/api/board_edit/{id}")
+    @PutMapping("/api/board_edit/{id}")//게시글 수정 페이지에서 수정 후 게시판에 업데이트하는 매핑
     public String updateArticle(@PathVariable Long id, @ModelAttribute AddArticleRequest request) {  
         blogService.update(id, request); // 게시글 수정 처리
         return "redirect:/board_list"; // 글 수정 이후 .html 연결
     }
 
     
-    @GetMapping("/board_write")
+    @GetMapping("/board_write") //글쓰는 페이지로 넘어감
     public String board_write() {
         return "board_write";
     }
-    
 
-    // @PostMapping("/api/boards") // 글쓰기 게시판 저장(GUEST만 사용자로 반환함)
-    //     public String addboards(@ModelAttribute AddArticleRequest request) {
-    //     blogService.save(request);
-    //     return "redirect:/board_list"; // .HTML 연결
-    // }
-
-    @PostMapping("/api/boards")//세션에서 이메일 가져오고, 이를 AddArticleRequest의 user 필드에 설정
+    @PostMapping("/api/boards")//세션에서 이메일 가져오고, 이를 AddArticleRequest의 user 필드에 설정후 게시판으로 넘어감
     public String addboards(@ModelAttribute AddArticleRequest request, HttpSession session) {
         // 세션에서 이메일 가져오기
         String email = (String) session.getAttribute("email");
-        if (email == null || email.isEmpty()) {
-            email = "GUEST"; // 로그인하지 않은 경우 기본값
-        }
+
+        // 어차피 이메일을 입력해야 로그인 할 수 있으니 필요 없다고 판단하여 주석 처리
+        // if (email == null || email.isEmpty()) {
+        //     email = "GUEST"; // 만약 이메일이 비어있다면?? 로그인하지 않은 경우 기본값
+        // } 
 
         // 작성자 정보를 설정
         request.setUser(email);
@@ -109,10 +104,12 @@ public class BlogController {
             return "redirect:/member_login"; // 로그인 페이지로 리다이렉션
         }
         System.out.println("세션 userId: " + userId); // 서버 IDE 터미널에 세션 값 출력
+        System.out.println("세션 ID: " + session.getId()); // 서버 IDE 터미널에 세션 값 출력
+        System.out.println("로그인한 사용자: " + session.getAttribute("email")); //서버 IDE 터미널에 사용자 이메일 출력
 
         // 한 페이지의 게시글 수
         int pageSize = 3;
-        PageRequest pageable = PageRequest.of(page, pageSize);
+        PageRequest pageable = PageRequest.of(page, pageSize); //페이징 객체 생성?
         
         Page<Board> list; // 게시글 목록을 담을 Page 객체
 
@@ -136,6 +133,14 @@ public class BlogController {
 
         return "board_list"; // board_list.html로 데이터 전달
     }
+
+    //과거에 함께했었던 코드들
+    // @PostMapping("/api/boards") // 글쓰기 게시판 저장(GUEST만 사용자로 반환함)
+    //     public String addboards(@ModelAttribute AddArticleRequest request) {
+    //     blogService.save(request);
+    //     return "redirect:/board_list"; // .HTML 연결
+    // }
+    
     // @GetMapping("/board_list") // 새로운 게시판 링크 지정 <<- 게시판의 게시글 개수를 3으로 제한하고 Get 방식으로 가져오는 맵핑(비활성화)
     // public String board_list(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "") String keyword) {
     //     PageRequest pageable = PageRequest.of(page, 3); // 한 페이지의 게시글 수

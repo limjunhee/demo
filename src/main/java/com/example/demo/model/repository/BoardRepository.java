@@ -8,6 +8,6 @@ import com.example.demo.model.domain.Board;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long>{
-    Page<Board> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+    Page<Board> findByTitleContainingIgnoreCase(String title, Pageable pageable); //대소문자 구분 없이 제목으로 Board에서 해당하는 결과(게시물) 찾기
     // List<Article> findAll();
 }

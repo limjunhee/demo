@@ -9,10 +9,10 @@ import jakarta.persistence.*; // 기존 javax 후속 버전
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 외부 생성자 접근 방지
 
 public class Member {
-    @Id
+    @Id//기본 키 필드
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 1씩 증가
-    @Column(name = "id", updatable = false) // 수정 x
-    private Long id;
+    @Column(name = "id", updatable = false) // 기본 키값이 들어오는 칼럼, 수정 x
+    private Long id;//기본 키 담긴 칼럼 이름
     
     @Column(name = "name", nullable = false) // 이름, null로 들어가면 안됨
     private String name = "";

@@ -9,5 +9,5 @@ import com.example.demo.model.domain.Member;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>{
     //Member findByEmail(String email);
-    Optional<Member> findByEmail(String email);
+    Optional<Member> findByEmail(String email); //이메일로 사용자 찾기
 }

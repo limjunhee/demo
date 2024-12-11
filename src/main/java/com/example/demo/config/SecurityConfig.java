@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+@Configuration //이 클래스가 설정 클래스(설정 파일)의 역할을 한다는 것을 알림
 public class SecurityConfig {
     @Bean // 명시적 의존성 주입 : Autowired와 다름
     // 5.7버전 이전 WebSecurityConfigurerAdapter 사용
@@ -20,7 +20,7 @@ public class SecurityConfig {
                     response.setHeader("X-XSS-Protection", "1; mode=block"); // XSS-Protection 헤더 설정
                     })
                     )
-                    .csrf().disable()
+                    .csrf().disable() // csrf 공격 방지
                     .sessionManagement(session -> session
                                     .invalidSessionUrl("/session-expired") // 세션 만료시 이동 페이지
                                     .maximumSessions(1) // 사용자 별 세션 최대 수

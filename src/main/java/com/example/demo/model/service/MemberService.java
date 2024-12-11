@@ -24,9 +24,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private void validateDuplicateMember(@Valid AddMemberRequest request) {
+    private void validateDuplicateMember(@Valid AddMemberRequest request) { //화원 중복여부 확인하기
         memberRepository.findByEmail(request.getEmail())
-            .ifPresent(member -> {
+            .ifPresent(member -> {//있으면
                 throw new IllegalStateException("이미 가입된 회원입니다."); // 예외 처리
             });
     }
@@ -54,6 +54,7 @@ public class MemberService {
     }
 }
 
+//과거에 함께했던 코드들
 // private final MemberRepository memberRepository;
 //     private final PasswordEncoder passwordEncoder; // 스프링 버전 5 이후, 단방향 해싱 알고리즘 지원
     

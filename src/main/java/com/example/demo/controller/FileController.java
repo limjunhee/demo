@@ -17,12 +17,22 @@ import java.nio.file.Paths;
 public class FileController {
     @Value("${spring.servlet.multipart.location}") // properties 등록된 설정(경로) 주입
     private String uploadFolder;
+
     @PostMapping("/upload_email")
     public String uploadEmail( // 이메일, 제목, 메시지를 전달받음
-            @RequestParam("email") String email,
-            @RequestParam("subject") String subject,
-            @RequestParam("message") String message,
+            //원래는 @RequestParam("email") String email 이였으나, 에러 페이지 구현을 위해 필수 입력값이 누락될 경우를 추가함
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "subject", required = false) String subject,
+            @RequestParam(value = "message", required = false) String message,
             RedirectAttributes redirectAttributes) {
+
+                 // 이메일 업로드 유효성 검사(필드값이 비어있는지 확인)
+        if (email == null || email.isEmpty() || 
+        subject == null || subject.isEmpty() || 
+        message == null || message.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "모든 필드를 입력해야 합니다.");
+            return "error_page/article_error"; // 에러 페이지 출력
+        }
         try {
             Path uploadPath = Paths.get(uploadFolder).toAbsolutePath();
             if (!Files.exists(uploadPath)) {
@@ -32,6 +42,14 @@ public class FileController {
         String sanitizedEmail = email.replaceAll("[^a-zA-Z0-9]", "_");
         Path filePath = uploadPath.resolve(sanitizedEmail + ".txt"); // 업로드 폴더에 .txt 이름 설정
         System.out.println("File path: " + filePath); // 디버깅용 출력
+        
+        // 동일한 파일이 존재할 경우 다른 이름으로 저장하기
+        int counter = 1;
+        while (Files.exists(filePath)) {
+            filePath = uploadPath.resolve(sanitizedEmail + "_" + counter + ".txt");
+            counter++;
+        }
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile()))) {
                 writer.write("메일 제목: " + subject); // 쓰기
                 writer.newLine(); // 줄 바꿈

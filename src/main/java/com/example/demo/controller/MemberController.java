@@ -83,8 +83,8 @@ public class MemberController {
     public String member_logout(Model model, HttpServletRequest request2, HttpServletResponse response) {
         try {
             HttpSession session = request2.getSession(false); // 기존 세션 가져오기(존재하지 않으면 null 반환)
-            session.invalidate(); // 기존 세션 무효화
-            Cookie cookie = new Cookie("JSESSIONID", null); // JSESSIONID is the default session cookie name
+            session.invalidate(); // 기존 세션 무효화(세션 정보를 모두 제거)
+            Cookie cookie = new Cookie("JSESSIONID", null); // JSESSIONID-> 세션의 디폴트 네임으로 초기화
             cookie.setPath("/"); // Set the path for the cookie
             cookie.setMaxAge(0); // Set cookie expiration to 0 (removes the cookie)
             response.addCookie(cookie); // Add cookie to the response
